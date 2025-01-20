@@ -9,7 +9,7 @@ from shinywidgets import render_plotly, output_widget, render_widget
 # The contents of the first 'page' is a navset with two 'panels'.
 page1 = ui.navset_card_underline(
     ui.nav_panel("Plot",output_widget("hist")),
-    footer=ui.input_select(
+    sidebar=ui.input_select(
         "var", 
         "Select variable", 
         choices=
@@ -46,7 +46,7 @@ def server(input, output, session):
 
     @reactive.calc
     def data():
-        return df[df['Country']==input.var()].fillna('')
+        return df[df['Country'].isin(input.var())].fillna('')
 
 
 app = App(app_ui, server)
