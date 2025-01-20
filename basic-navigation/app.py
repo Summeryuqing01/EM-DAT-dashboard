@@ -9,17 +9,28 @@ from shinywidgets import render_plotly, output_widget, render_widget
 # The contents of the first 'page' is a navset with two 'panels'.
 page1 = ui.navset_card_underline(
     ui.nav_panel("Plot",output_widget("hist")),
-    sidebar=ui.input_select(
+    header=ui.layout_column_wrap(
+        ui.input_selectize(
         "var", 
-        "Select variable", 
+        "Select Countries", 
         choices=
         {'Southern Asia': {'Bangladesh': 'Bangladesh', 'Iran (Islamic Republic of)': 'Iran (Islamic Republic of)', 'India': 'India', 'Pakistan': 'Pakistan', 'Afghanistan': 'Afghanistan', 'Sri Lanka': 'Sri Lanka', 'Nepal': 'Nepal', 'Bhutan': 'Bhutan', 'Maldives': 'Maldives'}, 
         'Eastern Asia': {'China': 'China', 'Mongolia': 'Mongolia', 'Japan': 'Japan', 'Republic of Korea': 'Republic of Korea', 'China, Hong Kong Special Administrative Region': 'China, Hong Kong Special Administrative Region', 'Taiwan (Province of China)': 'Taiwan (Province of China)', "Democratic People's Republic of Korea": "Democratic People's Republic of Korea", 'China, Macao Special Administrative Region': 'China, Macao Special Administrative Region'}, 
         'South-eastern Asia': {'Indonesia': 'Indonesia', 'Philippines': 'Philippines', 'Viet Nam': 'Viet Nam', 'Thailand': 'Thailand', 'Malaysia': 'Malaysia', "Lao People's Democratic Republic": "Lao People's Democratic Republic", 'Cambodia': 'Cambodia', 'Singapore': 'Singapore', 'Myanmar': 'Myanmar', 'Timor-Leste': 'Timor-Leste'}, 
         'Western Asia': {'Israel': 'Israel', 'Jordan': 'Jordan', 'Türkiye': 'Türkiye', 'Saudi Arabia': 'Saudi Arabia', 'Cyprus': 'Cyprus', 'Bahrain': 'Bahrain', 'Yemen': 'Yemen', 'Iraq': 'Iraq', 'Azerbaijan': 'Azerbaijan', 'Georgia': 'Georgia', 'Lebanon': 'Lebanon', 'Syrian Arab Republic': 'Syrian Arab Republic', 'Armenia': 'Armenia', 'United Arab Emirates': 'United Arab Emirates', 'Oman': 'Oman', 'State of Palestine': 'State of Palestine', 'Qatar': 'Qatar', 'Kuwait': 'Kuwait'}, 
         'Central Asia': {'Kazakhstan': 'Kazakhstan', 'Kyrgyzstan': 'Kyrgyzstan', 'Tajikistan': 'Tajikistan', 'Turkmenistan': 'Turkmenistan', 'Uzbekistan': 'Uzbekistan'}},
-        multiple = True
+        multiple=True,),
+        #ui.input_date_range('range',"Select Date Range",min="2000-01-01", max="2025-01-01")
+        ui.input_selectize(
+            "type",
+            "Select Disaster Types",
+            choices = ['Biological', 'Climatological', 'Geophysical', 'Hydrological',
+       'Industrial accident', 'Meteorological', 'Miscellaneous accident',
+       'Transport'],
+       multiple=True,
+        )
     ),
+
     title="Disaster Timeline",
 )
 
@@ -46,7 +57,9 @@ def server(input, output, session):
 
     @reactive.calc
     def data():
-        return df[df['Country'].isin(input.var())].fillna('')
+        newdf = df[df['Country'].isin(input.var())].fillna('')
+        newdf = newdf[newdf['Disaster Subgroup'].isin(input.type())]
+        return newdf
 
 
 app = App(app_ui, server)
