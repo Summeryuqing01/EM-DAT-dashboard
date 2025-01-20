@@ -12,7 +12,13 @@ page1 = ui.navset_card_underline(
     footer=ui.input_select(
         "var", 
         "Select variable", 
-        choices=["China", "Japan"]
+        choices=
+        {'Southern Asia': {'Bangladesh': 'Bangladesh', 'Iran (Islamic Republic of)': 'Iran (Islamic Republic of)', 'India': 'India', 'Pakistan': 'Pakistan', 'Afghanistan': 'Afghanistan', 'Sri Lanka': 'Sri Lanka', 'Nepal': 'Nepal', 'Bhutan': 'Bhutan', 'Maldives': 'Maldives'}, 
+        'Eastern Asia': {'China': 'China', 'Mongolia': 'Mongolia', 'Japan': 'Japan', 'Republic of Korea': 'Republic of Korea', 'China, Hong Kong Special Administrative Region': 'China, Hong Kong Special Administrative Region', 'Taiwan (Province of China)': 'Taiwan (Province of China)', "Democratic People's Republic of Korea": "Democratic People's Republic of Korea", 'China, Macao Special Administrative Region': 'China, Macao Special Administrative Region'}, 
+        'South-eastern Asia': {'Indonesia': 'Indonesia', 'Philippines': 'Philippines', 'Viet Nam': 'Viet Nam', 'Thailand': 'Thailand', 'Malaysia': 'Malaysia', "Lao People's Democratic Republic": "Lao People's Democratic Republic", 'Cambodia': 'Cambodia', 'Singapore': 'Singapore', 'Myanmar': 'Myanmar', 'Timor-Leste': 'Timor-Leste'}, 
+        'Western Asia': {'Israel': 'Israel', 'Jordan': 'Jordan', 'Türkiye': 'Türkiye', 'Saudi Arabia': 'Saudi Arabia', 'Cyprus': 'Cyprus', 'Bahrain': 'Bahrain', 'Yemen': 'Yemen', 'Iraq': 'Iraq', 'Azerbaijan': 'Azerbaijan', 'Georgia': 'Georgia', 'Lebanon': 'Lebanon', 'Syrian Arab Republic': 'Syrian Arab Republic', 'Armenia': 'Armenia', 'United Arab Emirates': 'United Arab Emirates', 'Oman': 'Oman', 'State of Palestine': 'State of Palestine', 'Qatar': 'Qatar', 'Kuwait': 'Kuwait'}, 
+        'Central Asia': {'Kazakhstan': 'Kazakhstan', 'Kyrgyzstan': 'Kyrgyzstan', 'Tajikistan': 'Tajikistan', 'Turkmenistan': 'Turkmenistan', 'Uzbekistan': 'Uzbekistan'}},
+        multiple = True
     ),
     title="Disaster Timeline",
 )
