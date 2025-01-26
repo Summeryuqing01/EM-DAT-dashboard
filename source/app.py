@@ -23,21 +23,30 @@ page1 = ui.navset_card_underline(
         #ui.input_date_range('range',"Select Date Range",min="2000-01-01", max="2025-01-01")
         ui.input_selectize(
             "type",
-            "Select Disaster Types",
-            choices = ['Biological', 'Climatological', 'Geophysical', 'Hydrological',
-       'Industrial accident', 'Meteorological', 'Miscellaneous accident',
-       'Transport'],
+            "Select Disaster Group (Subgroup)",
+            choices = {
+                'Natural':{'Biological':'Biological', 
+                'Climatological':'Climatological', 
+                'Geophysical':'Geophysical', 
+                'Hydrological':'Hydrological','Meteorological':'Meteorological'},
+                'Technological':{'Industrial accident':'Industrial accident', 
+                'Miscellaneous accident':'Miscellaneous accident', 'Transport':'Transport'}
+            }
        multiple=True,
         )
     ),
 
     title="Disaster Timeline",
 )
+page2 = ui.navset_card_underline(
+    title="Table",
+
+)
 
 app_ui = ui.page_navbar(
     ui.nav_spacer(),  # Push the navbar items to the right
     ui.nav_panel("Page 1", page1),
-    ui.nav_panel("Page 2", "This is the second 'page'."),
+    ui.nav_panel("Page 2", page2),
     title="EM-Dat Dashboard",
 )
 
