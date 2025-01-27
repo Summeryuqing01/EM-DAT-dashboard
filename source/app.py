@@ -28,7 +28,11 @@ page1 = ui.navset_card_underline(
             {'Natural':{'Biological':'Biological', 'Climatological':'Climatological', 'Geophysical':'Geophysical', 
                         'Hydrological':'Hydrological','Meteorological':'Meteorological'},
             'Technological':{'Industrial accident':'Industrial accident','Miscellaneous accident':'Miscellaneous accident', 'Transport':'Transport'}},
-       multiple=True,)
+       multiple=True,),
+       ui.input_selectize(
+           'group',
+           'Divide the timeline by?',
+           choices=[]
     ),
 
     title="Disaster Timeline",
