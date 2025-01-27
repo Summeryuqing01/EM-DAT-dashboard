@@ -24,16 +24,11 @@ page1 = ui.navset_card_underline(
         ui.input_selectize(
             "type",
             "Select Disaster Group (Subgroup)",
-            choices = {
-                'Natural':{'Biological':'Biological', 
-                'Climatological':'Climatological', 
-                'Geophysical':'Geophysical', 
-                'Hydrological':'Hydrological','Meteorological':'Meteorological'},
-                'Technological':{'Industrial accident':'Industrial accident', 
-                'Miscellaneous accident':'Miscellaneous accident', 'Transport':'Transport'}
-            }
-       multiple=True,
-        )
+            choices = 
+            {'Natural':{'Biological':'Biological', 'Climatological':'Climatological', 'Geophysical':'Geophysical', 
+                        'Hydrological':'Hydrological','Meteorological':'Meteorological'},
+            'Technological':{'Industrial accident':'Industrial accident','Miscellaneous accident':'Miscellaneous accident', 'Transport':'Transport'}},
+       multiple=True,)
     ),
 
     title="Disaster Timeline",
