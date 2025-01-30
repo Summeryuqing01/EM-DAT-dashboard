@@ -32,15 +32,12 @@ page1 = ui.navset_card_underline(
        ui.input_selectize(
            'group',
            'Divide the timeline by?',
-           choices=[]
-    ),
+           choices=['Country','Disaster Group','Disaster Subgroup','Disaster Type'],
+    ),),
+    title="Disaster Timeline",)
 
-    title="Disaster Timeline",
-)
 page2 = ui.navset_card_underline(
-    title="Table",
-
-)
+    title="Table",)
 
 app_ui = ui.page_navbar(
     ui.nav_spacer(),  # Push the navbar items to the right
@@ -56,7 +53,7 @@ def server(input, output, session):
         return px.timeline(data(), 
                         x_start="Start Date", 
                         x_end="End Date", 
-                        y='Country',
+                        y=input.group(),
                         color="Disaster Subgroup",
                         opacity = 0.6,
                         hover_data = ['Start Date','End Date',
