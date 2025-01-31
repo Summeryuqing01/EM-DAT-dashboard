@@ -32,8 +32,12 @@ page1 = ui.navset_card_underline(
        ui.input_selectize(
            'group',
            'Divide the timeline by?',
-           choices=['Country','Disaster Group','Disaster Subgroup','Disaster Type'],
-    ),),
+           choices=['Country','Disaster Group','Disaster Subgroup','Disaster Type'],),
+        ui.input_selectize(
+           'legend',
+           'Color By?',
+           choices=['Country','Disaster Group','Disaster Subgroup','Disaster Type'],),
+           ),
     title="Disaster Timeline",)
 
 page2 = ui.navset_card_underline(
@@ -54,7 +58,7 @@ def server(input, output, session):
                         x_start="Start Date", 
                         x_end="End Date", 
                         y=input.group(),
-                        color="Disaster Subgroup",
+                        color=input.legend(),
                         opacity = 0.6,
                         hover_data = ['Start Date','End Date',
                                       "Disaster Group", "Disaster Subtype", 
