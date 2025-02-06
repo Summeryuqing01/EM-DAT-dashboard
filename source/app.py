@@ -8,7 +8,7 @@ from shinywidgets import render_plotly, output_widget, render_widget
 
 # The contents of the first 'page' is a navset with two 'panels'.
 page1 = ui.navset_card_underline(
-    ui.nav_panel("Plot",output_widget("hist")),
+    ui.nav_panel("Plot",output_widget("timeline")),
     header=ui.layout_column_wrap(
         ui.input_selectize(
         "var", 
@@ -41,8 +41,15 @@ page1 = ui.navset_card_underline(
     title="Disaster Timeline",)
 
 page2 = ui.navset_card_underline(
-    title="Table",)
-
+    ui.nav_panel("Plot",output_widget("indonesia_timeline")),
+    header=ui.layout_column_wrap(
+        ui.input_selectize(
+            'year',
+            'Select Start Year',
+            choices=list(range(2000,2025))
+    ),),
+    title="Indonesia",
+)
 app_ui = ui.page_navbar(
     ui.nav_spacer(),  # Push the navbar items to the right
     ui.nav_panel("Page 1", page1),
@@ -53,12 +60,23 @@ app_ui = ui.page_navbar(
 
 def server(input, output, session):
     @render_widget
-    def hist():
+    def timeline():
         return px.timeline(data(), 
                         x_start="Start Date", 
                         x_end="End Date", 
                         y=input.group(),
                         color=input.legend(),
+                        opacity = 0.6,
+                        hover_data = ['Start Date','End Date',
+                                      "Disaster Group", "Disaster Subtype", 
+                                      "Country",'Subregion','Location'])
+    @render_widget
+    def indonesia_timeline():
+        return px.timeline(select_year(), 
+                        x_start="Start Date", 
+                        x_end="End Date", 
+                        y='DisNo.',
+                        color='Disaster Subgroup',
                         opacity = 0.6,
                         hover_data = ['Start Date','End Date',
                                       "Disaster Group", "Disaster Subtype", 
@@ -70,5 +88,11 @@ def server(input, output, session):
         newdf = newdf[newdf['Disaster Subgroup'].isin(input.type())]
         return newdf
 
+    @reactive.calc
+    def select_year():
+        newdf = df[df['Country']=='Indonesia'].fillna('')
+        year = int(input.year())
+        newdf = newdf[newdf['Start Year']==year]
+        return newdf
 
 app = App(app_ui, server)
