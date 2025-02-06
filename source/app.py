@@ -42,6 +42,7 @@ page1 = ui.navset_card_underline(
 
 page2 = ui.navset_card_underline(
     ui.nav_panel("Plot",output_widget("indonesia_timeline")),
+    ui.nav_panel(ui.HTML("<iframe src=\"https://www.google.com/maps/d/embed?mid=1WOkSrAc5dSPYURQS4pZ0tCmS9W-msBo&ehbc=2E312F&noprof=1\" width= \"640\" ></iframe>")),
     header=ui.layout_column_wrap(
         ui.input_selectize(
             'year',
