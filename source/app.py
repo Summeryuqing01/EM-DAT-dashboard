@@ -68,7 +68,7 @@ def server(input, output, session):
                         y=input.group(),
                         color=input.legend(),
                         opacity = 0.6,
-                        hover_data = ['Start Date','End Date',
+                        hover_data = ['Start Date','End Date', 'Event Name',
                                       "Disaster Group", "Disaster Subtype", 
                                       "Country",'Subregion','Location'])
     @render_widget
@@ -93,7 +93,7 @@ def server(input, output, session):
     def select_year():
         newdf = df[df['Country']=='Indonesia'].fillna('')
         year = int(input.year())
-        newdf = newdf[newdf['Start Year']==year]
+        newdf = newdf[(data['Start Year']==2007)| (data['End Year']==2007)]
         return newdf
 
 app = App(app_ui, server)
