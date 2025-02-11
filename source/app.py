@@ -41,16 +41,16 @@ page1 = ui.navset_card_underline(
     title="Disaster Timeline",)
 
 page2 = ui.navset_card_underline(
-    ui.nav_panel("Plot",output_widget("indonesia_timeline")),
-    ui.nav_panel(ui.HTML("<iframe src=\"https://www.google.com/maps/d/embed?mid=1WOkSrAc5dSPYURQS4pZ0tCmS9W-msBo&ehbc=2E312F&noprof=1\" width= \"640\" ></iframe>")),
+    ui.nav_panel("Plot",output_widget("country_timeline")),
     header=ui.layout_column_wrap(
         ui.input_selectize(
             'year',
             'Select Start Year',
-            choices=list(range(2000,2025))
-    ),),
+            choices=list(range(2000,2025)),
+            multiple = False),),
     title="Indonesia",
 )
+
 app_ui = ui.page_navbar(
     ui.nav_spacer(),  # Push the navbar items to the right
     ui.nav_panel("Page 1", page1),
@@ -72,17 +72,16 @@ def server(input, output, session):
                                       "Disaster Group", "Disaster Subtype", 
                                       "Country",'Subregion','Location'])
     @render_widget
-    def indonesia_timeline():
-        return px.timeline(select_year(), 
-                        x_start="Start Date", 
-                        x_end="End Date", 
-                        y='DisNo.',
-                        color='Disaster Subgroup',
-                        opacity = 0.6,
-                        hover_data = ['Start Date','End Date',
-                                      "Disaster Group", "Disaster Subtype", 
-                                      "Country",'Subregion','Location'])
-
+    def country_timeline():
+        return px.timeline(select_year(),
+                            x_start="Start Date", 
+                            x_end="End Date", 
+                             y='DisNo.',
+                            color='Disaster Subgroup',
+                            opacity = 0.6,
+                            hover_data = ['Start Date','End Date',
+                            "Disaster Group", "Disaster Subtype", 
+                            "Country",'Subregion','Location'])
     @reactive.calc
     def data():
         newdf = df[df['Country'].isin(input.var())].fillna('')
@@ -93,7 +92,7 @@ def server(input, output, session):
     def select_year():
         newdf = df[df['Country']=='Indonesia'].fillna('')
         year = int(input.year())
-        newdf = newdf[(data['Start Year']==2007)| (data['End Year']==2007)]
+        newdf = newdf[(newdf['Start Year']==year)|(newdf['End Year']==year)]
         return newdf
 
 app = App(app_ui, server)
