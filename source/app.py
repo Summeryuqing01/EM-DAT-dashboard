@@ -96,3 +96,24 @@ def server(input, output, session):
         return newdf
 
 app = App(app_ui, server)
+
+# test
+"""
+ ui.input_selectize(
+ 'divs',
+ 'Select subdivision',
+ choices = ['Province','Regency','District']
+ )
+
+@render_widget
+def mapping():
+    fig = px.choropleth(geojson= ,
+                    color_continuous_scale="Viridis",
+                    range_color=(0, 12),
+                    fitbounds='geojson'
+                          )
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    return fig
+
+
+"""
