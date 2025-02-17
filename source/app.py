@@ -4,12 +4,11 @@ import datetime
 import plotly.express as px
 from shiny import App, render, ui,reactive
 from shinywidgets import render_plotly, output_widget, render_widget
-
+from ipyleaflet import GeoJSON, Map, Marker  
 
 # The contents of the first 'page' is a navset with two 'panels'.
-page1 = ui.navset_card_underline(
-    ui.nav_panel("Plot",output_widget("timeline")),
-    header=ui.layout_column_wrap(
+page1 = ui.page_fillable(
+    ui.layout_column_wrap(
         ui.input_selectize(
         "var", 
         "Select Countries", 
@@ -29,7 +28,7 @@ page1 = ui.navset_card_underline(
                         'Hydrological':'Hydrological','Meteorological':'Meteorological'},
             'Technological':{'Industrial accident':'Industrial accident','Miscellaneous accident':'Miscellaneous accident', 'Transport':'Transport'}},
        multiple=True,),
-       ui.input_selectize(
+        ui.input_selectize(
            'group',
            'Divide the timeline by?',
            choices=['Country','Disaster Group','Disaster Subgroup','Disaster Type'],),
@@ -38,10 +37,10 @@ page1 = ui.navset_card_underline(
            'Color By?',
            choices=['Country','Disaster Group','Disaster Subgroup','Disaster Type'],),
            ),
-    title="Disaster Timeline",)
+    ui.layout_columns(ui.card(ui.output_widget("Asia")),))
 
 page2 = ui.navset_card_underline(
-    ui.nav_panel("Plot",output_widget("country_timeline")),
+    ui.nav_panel("Case Study: Indonesia",output_widget("country_timeline")),
     header=ui.layout_column_wrap(
         ui.input_selectize(
             'year',
@@ -60,6 +59,11 @@ app_ui = ui.page_navbar(
 
 
 def server(input, output, session):
+    @render_widget
+    def map():
+        map = Map(center=(-20,120), zoom=3)
+        return map
+  
     @render_widget
     def timeline():
         return px.timeline(data(), 
@@ -107,13 +111,7 @@ app = App(app_ui, server)
 
 @render_widget
 def mapping():
-    fig = px.choropleth(geojson= ,
-                    color_continuous_scale="Viridis",
-                    range_color=(0, 12),
-                    fitbounds='geojson'
-                          )
-    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-    return fig
+
 
 
 """
