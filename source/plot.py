@@ -1,28 +1,18 @@
 import plotly.express as px
 from ipyleaflet import GeoJSON, Map, Marker  
+from shiny import ui
+import datetime
+from shared import df
 
-def timeline():
-        return px.timeline(data(), 
-                        x_start="Start Date", 
-                        x_end="End Date", 
-                        y=input.group(),
-                        color=input.legend(),
-                        opacity = 0.6,
-                        hover_data = ['Start Date','End Date', 'Event Name',
-                                      "Disaster Group", "Disaster Subtype", 
-                                      "Country",'Subregion','Location'])
 
-def country_timeline():
-        return px.timeline(select_year(),
-                            x_start="Start Date", 
-                            x_end="End Date", 
-                             y='DisNo.',
-                            color='Disaster Subgroup',
-                            opacity = 0.6,
-                            hover_data = ['Start Date','End Date',
-                            "Disaster Group", "Disaster Subtype", 
-                            "Country",'Subregion','Location'])
+def data():
+        newdf = df[df['Country'].isin(input.var())].fillna('')
+        newdf = newdf[newdf['Disaster Subgroup'].isin(input.type())]
+        return newdf
 
-def map():
-        map = Map(center=(-20,120), zoom=3)
-        return map
+def select_year():
+        newdf = df[df['Country']=='Indonesia'].fillna('')
+        year = int(input.year())
+        newdf = newdf[(newdf['Start Year']==year)|(newdf['End Year']==year)]
+        return newdf
+

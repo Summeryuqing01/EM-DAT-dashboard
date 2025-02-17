@@ -37,7 +37,7 @@ page1 = ui.page_fillable(
            'Color By?',
            choices=['Country','Disaster Group','Disaster Subgroup','Disaster Type'],),
            ),
-    ui.layout_columns(ui.card(ui.output_widget("Asia")),))
+    ui.layout_columns(ui.card(output_widget('timeline'))),)
 
 page2 = ui.navset_card_underline(
     ui.nav_panel("Case Study: Indonesia",output_widget("country_timeline")),
