@@ -2,3 +2,6 @@ shiny
 pandas
 plotly
 shinywidgets
+geopandas
+folium
+ipyleaflet
